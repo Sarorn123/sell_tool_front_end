@@ -1,0 +1,411 @@
+@use "../utils/variables" as v;
+
+// v.$pr-color: #6c7ae0;
+
+@mixin small-screen {
+  @media (max-width: 660px) {
+    @content;
+  }
+}
+@mixin s-small-screen {
+  @media (max-width: 400px) {
+    @content;
+  }
+}
+@mixin other-screen {
+  @media (max-width: 1799px) {
+    @content;
+  }
+}
+@mixin theme {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+
+
+
+
+
+
+
+
+// NAVIGATION BAR
+
+.navbar {
+  min-height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  max-width: 1800px;
+  margin: auto;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    height: 60px;
+    background-color: #fff;
+    width: 100%;
+    z-index: -1;
+    box-shadow: 1px 1px 10px #22222222;
+  }
+
+  .nav-logo {
+    height: 30px;
+    display: flex;
+    gap: 20px;
+
+    @include small-screen() {
+      height: 28px;
+    }
+
+    button {
+      font-size: 28px;
+      display: none;
+
+      @include small-screen() {
+        display: block;
+      }
+    }
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .nav-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .links {
+      display: flex;
+      gap: 20px;
+      font-size: 18px;
+
+      @include small-screen() {
+        display: none;
+      }
+
+      .link {
+        color: #444;
+        transition: color 50ms ease;
+        position: relative;
+        font-weight: 600;
+
+        &::after {
+          content: "";
+          display: block;
+          width: 0;
+          height: 2px;
+          background-color: v.$pr-color;
+          z-index: 10;
+          position: absolute;
+          transition: width 150ms ease;
+        }
+
+        &:nth-child(1) {
+          color: v.$pr-color;
+
+          &::after {
+            width: 100%;
+          }
+        }
+
+        &:hover {
+          color: v.$pr-color;
+
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      button {
+        color: #222;
+        font-size: 18px;
+        transition: color 50ms ease;
+        position: relative;
+
+        &:hover {
+          color: v.$pr-color;
+        }
+
+        span {
+          position: absolute;
+          font-size: 12px;
+          top: -12px;
+          right: -12px;
+          background-color: v.$pr-color;
+          color: #fff;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+// SEARCH BOX
+
+.search-box {
+  max-width: 1800px;
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+
+  @include other-screen() {
+    margin: 0 20px;
+    margin-top: 20px;
+  }
+
+  input {
+    background-color: transparent;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #44444444;
+
+    &:focus {
+      color: v.$pr-color;
+      border: 1px solid v.$pr-color;
+
+      &::placeholder {
+        color: v.$pr-color;
+      }
+    }
+  }
+
+  .search-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: v.$pr-color;
+    width: fit-content;
+    padding: 0 20px;
+    color: #fff;
+    font-size: 16px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// CARD MENU
+
+.blank {
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  top: 0;
+  height: 100vh;
+  background-color: #18181850;
+  transition: all 500ms ease;
+  right: 0;
+}
+
+.hide-cart {
+  right: -660px !important;
+  transition: all 500ms ease;
+}
+
+.cart {
+  position: fixed;
+  background-color: #fff;
+  top: 0;
+  right: 0;
+  width: 550px;
+  z-index: 21;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 60px;
+  transition: all 500ms ease;
+
+  @include small-screen() {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .cart-title {
+      display: flex;
+      justify-content: space-between;
+      font-size: 24px;
+      align-items: center;
+
+      @include s-small-screen() {
+        font-size: 18px;
+      }
+
+      h3 {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      button {
+        transition: color 50ms ease;
+        padding: 10px;
+
+        &:hover {
+          color: v.$pr-color;
+        }
+      }
+    }
+  }
+
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    // background-color: black;
+    height: calc(90vh - 140px);
+    overflow: auto;
+
+    .item {
+      display: flex;
+      align-items: center;
+      background-color: #6c7ae020;
+      gap: 20px;
+      position: relative;
+
+      .cover {
+        height: 140px;
+        width: 100px;
+        margin: 4px;
+
+        @include s-small-screen() {
+          height: 120px;
+          width: 80px;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .desc {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        color: dimgray;
+
+        h4 {
+          font-size: 18px;
+          font-weight: 500;
+
+          @include s-small-screen() {
+            font-size: 14px;
+          }
+        }
+
+        .price {
+          display: flex;
+          gap: 6px;
+          @include s-small-screen() {
+            font-size: 12px;
+          }
+        }
+      }
+
+      .action {
+        color: v.$pr-color;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: 40px;
+        transition: all 100ms ease;
+        padding: 10px;
+        background-color: #18181810;
+
+        &:hover {
+          background-color: #18181820;
+          color: red;
+        }
+
+        @include s-small-screen() {
+          right: 20px;
+        }
+      }
+    }
+  }
+
+  .foot {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-transform: uppercase;
+
+    .total {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+
+      @include s-small-screen() {
+        margin-bottom: 10px;
+        gap: 10px;
+      }
+
+      button {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background-color: #181818;
+        padding: 8px 24px;
+        color: #fff;
+        transition: background-color 150ms ease;
+
+        &:hover {
+          background-color: v.$pr-color;
+        }
+
+        @include s-small-screen() {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
